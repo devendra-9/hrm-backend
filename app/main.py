@@ -1,0 +1,21 @@
+from fastapi import FastAPI
+from app.routes import employee_routes, attendance_routes
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+app.include_router(employee_routes.router)
+app.include_router(attendance_routes.router)
+
+@app.get("/")
+def home():
+    return {"message": "Backend running"}
